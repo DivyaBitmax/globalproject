@@ -9,10 +9,10 @@ exports.submitForm = async (req, res) => {
       interestedProjects, preferredCity, preferredContact
     } = req.body;
 
-    // const profileFilePath = req.file ? req.file.path : null;
+    const profileFilePath = req.file ? req.file.path : null;
 
     // store just “documents/filename.ext” so that clients can hit /uploads/…
-   const profileFilePath = req.file ? `documents/${req.file.filename}` : null;
+  //  const profileFilePath = req.file ? `documents/${req.file.filename}` : null;
 
 
     const newForm = new Form({
