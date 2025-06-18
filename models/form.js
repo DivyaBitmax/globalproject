@@ -21,6 +21,6 @@ const formSchema = new mongoose.Schema({
   preferredCity: String,
   preferredContact: String,
   profileFilePath: String
-}, { timestamps: true });
+});
 
 module.exports = mongoose.model("Form", formSchema);
