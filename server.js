@@ -14,6 +14,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 connectDB();
 
+
 app.use("/api", formRoutes);
 // app.use("/api/admin",authRoutes);
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
