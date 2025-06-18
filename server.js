@@ -3,7 +3,7 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const { PORT } = require("./config/config");
 const formRoutes = require("./routes/formRoutes");
-const authRoutes = require("./routes/authRoutes")
+//const authRoutes = require("./routes/authRoutes")
 const path = require("path");
 
 const app = express();
