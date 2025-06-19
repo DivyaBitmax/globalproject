@@ -25,9 +25,7 @@ exports.submitForm = async (req, res) => {
     });
 
     await newForm.save();
-    res.status(200).json({ success: true, message: "Form submitted successfully",
-      filePath: `/uploads/${req.file.filename}`
-     });
+    res.status(200).json({ success: true, message: "Form submitted successfully", });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
