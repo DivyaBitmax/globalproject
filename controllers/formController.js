@@ -53,18 +53,47 @@ exports.submitForm = async (req, res) => {
     });
 
 
-    const mailOptions = {
-      from: `GlobalProjects <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: `Form Submission Received - ID: ${formId}`,
-      html: `
-        <h2>Thank you for contacting GlobalProjects!</h2>
-        <p>Your Form ID is: <strong>${formId}</strong></p>
-        <p>We will review your submission and get back to you shortly.</p>
-        <br/>
-        <p>Regards,<br/>GlobalProjects Team</p>
-      `
-    };
+    // const mailOptions = {
+    //   from: `GlobalProjects <${process.env.EMAIL_USER}>`,
+    //   to: email,
+    //   subject: `Form Submission Received - ID: ${formId}`,
+    //   html: `
+    //     <h2>Thank you for contacting GlobalProjects!</h2>
+    //     <p>Your Form ID is: <strong>${formId}</strong></p>
+    //     <p>We will review your submission and get back to you shortly.</p>
+    //     <br/>
+    //     <p>Regards,<br/>GlobalProjects Team</p>
+    //   `
+    // };
+
+const mailOptions = {
+  from: `GlobalProjects <${process.env.EMAIL_USER}>`,
+  to: email,
+  subject: `Form Submission Received - ID: ${formId}`,
+  html: `
+    <p>Dear Applicant,</p>
+
+    <p>Greetings from <strong>Global Projects</strong>.</p>
+
+    <p>We have received your request and you will get the project details on your email ID.</p>
+
+    <p><strong>Your Center Code:</strong> ${formId}</p>
+
+    <p>Please use the above center code for further communication.</p>
+
+    <br/>
+
+    <p>Thanks,<br/>
+    Team Global Projects<br/>
+    (A Unit of Bitmax Group)<br/>
+    📞 +91-9211532100 | IVR - 9211532400<br/>
+    📧 contact@projectsglobal.in<br/>
+    🌐 <a href="https://www.projectsglobal.in">www.projectsglobal.in</a><br/>
+    🏢 Bhutani Alphathum Tower C, Unit 1034, Sector 90, Noida 201305</p>
+  `
+};
+
+
 
     await transporter.sendMail(mailOptions);
 
