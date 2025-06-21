@@ -26,9 +26,16 @@ exports.submitForm = async (req, res) => {
 
 
     // ✅ New (unique and safe)
-const datePart = new Date().toISOString().split("T")[0].replace(/-/g, "");
-const formId = `GLOB-${datePart}-${Date.now()}`;
+// const datePart = new Date().toISOString().split("T")[0].replace(/-/g, "");
+// const formId = `GLOB-${datePart}-${Date.now()}`;
 
+
+
+
+const formCount = await Form.countDocuments();
+const datePart = new Date().toISOString().split("T")[0].replace(/-/g, "");
+const randomDigit = Math.floor(10 + Math.random() * 90); // 2-digit random number
+const formId = `GLOB-${datePart}-${formCount + 1}-${randomDigit}`;
 
 
 
