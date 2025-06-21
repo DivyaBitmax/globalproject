@@ -92,9 +92,6 @@ const mailOptions = {
     🏢 Bhutani Alphathum Tower C, Unit 1034, Sector 90, Noida 201305</p>
   `
 };
-
-
-
     await transporter.sendMail(mailOptions);
 
     res.status(200).json({ success: true, message: "Form submitted successfully", formId });
