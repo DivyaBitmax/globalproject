@@ -16,10 +16,22 @@ exports.submitForm = async (req, res) => {
     const profileFilePath = req.file ? req.file.path : null;
 
     // STEP 1: Generate Form ID
-    const formCount = await Form.countDocuments();
-    const today = new Date();
-    const datePart = today.toISOString().split("T")[0].replace(/-/g, "");
-    const formId = `GLOB-${datePart}-${formCount + 1}`;
+
+
+    // const formCount = await Form.countDocuments();
+    // const today = new Date();
+    // const datePart = today.toISOString().split("T")[0].replace(/-/g, "");
+    // const formId = `GLOB-${datePart}-${formCount + 1}`;
+
+
+
+    // ✅ New (unique and safe)
+const datePart = new Date().toISOString().split("T")[0].replace(/-/g, "");
+const formId = `GLOB-${datePart}-${Date.now()}`;
+
+
+
+
 
     // STEP 2: Save form
     const newForm = new Form({
