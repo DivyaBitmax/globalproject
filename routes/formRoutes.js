@@ -25,7 +25,10 @@ const upload = multer({
 // Routes
 router.post("/submit-form", upload.single("profileFile"), formController.submitForm);
 router.get("/get-forms", formController.getAllForms);
+
 router.get("/form/:formId", formController.getFormById);
+router.delete("/delete-form/:id", formController.deleteFormById);
+
 
 module.exports = router;
 

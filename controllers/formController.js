@@ -26,19 +26,13 @@ exports.submitForm = async (req, res) => {
 
 
     // ✅ New (unique and safe)
-// const datePart = new Date().toISOString().split("T")[0].replace(/-/g, "");
-// const formId = `GLOB-${datePart}-${Date.now()}`;
+    // const datePart = new Date().toISOString().split("T")[0].replace(/-/g, "");
+    // const formId = `GLOB-${datePart}-${Date.now()}`;
 
-
-
-
-const formCount = await Form.countDocuments();
-const datePart = new Date().toISOString().split("T")[0].replace(/-/g, "");
-const randomDigit = Math.floor(10 + Math.random() * 90); // 2-digit random number
-const formId = `GLOB-${datePart}-${formCount + 1}-${randomDigit}`;
-
-
-
+    const formCount = await Form.countDocuments();
+    const datePart = new Date().toISOString().split("T")[0].replace(/-/g, "");
+    const randomDigit = Math.floor(10 + Math.random() * 90); // 2-digit random number
+    const formId = `GLOB-${datePart}-${formCount + 1}-${randomDigit}`;
 
     // STEP 2: Save form
     const newForm = new Form({
@@ -85,11 +79,11 @@ const formId = `GLOB-${datePart}-${formCount + 1}-${randomDigit}`;
     //   `
     // };
 
-const mailOptions = {
-  from: `GlobalProjects <${process.env.EMAIL_USER}>`,
-  to: email,
-  subject: `Form Submission Received - ID: ${formId}`,
-  html: `
+    const mailOptions = {
+      from: `GlobalProjects <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: `Form Submission Received - ID: ${formId}`,
+      html: `
     <p>Dear Applicant,</p>
 
     <p>Greetings from <strong>Global Projects</strong>.</p>
@@ -110,7 +104,7 @@ const mailOptions = {
     🌐 <a href="https://www.projectsglobal.in">www.projectsglobal.in</a><br/>
     🏢 Bhutani Alphathum Tower C, Unit 1034, Sector 90, Noida 201305</p>
   `
-};
+    };
     await transporter.sendMail(mailOptions);
 
     res.status(200).json({ success: true, message: "Form submitted successfully", formId });
@@ -129,6 +123,26 @@ exports.getAllForms = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
+// Delete form by  auto generated Id
+exports.deleteFormById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedForm = await Form.findByIdAndDelete(id); // 👈 use _id
+
+    if (!deletedForm) {
+      return res.status(404).json({ success: false, message: "Form not found" });
+    }
+
+    res.status(200).json({ success: true, message: "Form deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+
+
 
 //  Get form by ID
 exports.getFormById = async (req, res) => {
