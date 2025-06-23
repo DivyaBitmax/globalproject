@@ -36,5 +36,10 @@ router.delete("/delete-form/:id", formController.deleteFormById);
 router.get("/dashboard-summary", dashboardController.getDashboardSummary);
 router.post("/track-visitor", visitorController.trackVisitor);
 
+// In routes/formRoutes.js ya chartRoutes.js
+const chartController = require("../controllers/chartController");
+
+router.get("/chart/monthly-submissions", chartController.getMonthlySubmissions);
+
 module.exports = router;
 
