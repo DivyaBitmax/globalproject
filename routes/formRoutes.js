@@ -4,6 +4,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const formController = require("../controllers/formController");
+const dashboardController = require("../controllers/dashboardController");
 
 // Ensure 'uploads/documents' directory exists
 const uploadDir = path.join(__dirname, "../uploads/documents");
@@ -28,6 +29,10 @@ router.get("/get-forms", formController.getAllForms);
 
 router.get("/form/:formId", formController.getFormById);
 router.delete("/delete-form/:id", formController.deleteFormById);
+
+
+//dashboard
+router.get("/dashboard-summary", dashboardController.getDashboardSummary);
 
 
 module.exports = router;
