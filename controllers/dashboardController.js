@@ -1,9 +1,9 @@
-const Form = require("../models/form");
-
+const Visitor = require("../models/Visitor");
+const Form = require("../models/form")
 exports.getDashboardSummary = async (req, res) => {
   try {
-    const totalUsers = await Form.countDocuments(); // Total form submissions = total users visited
-    const registered = await Form.countDocuments({ email: { $ne: null } }); // Users who submitted email
+    const totalUsers = await Visitor.countDocuments(); // ✅ Real total visitors
+    const registered = await Form.countDocuments();    // ✅ Form submissions
     const today = new Date().toISOString().split("T")[0];
 
     const startOfDay = new Date(today);
