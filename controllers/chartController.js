@@ -4,7 +4,13 @@ const Form = require("../models/form");
 exports.getMonthlySubmissions = async (req, res) => {
   try {
     const result = await Form.aggregate([
-      {
+        {
+        $match: {
+          createdAt: { $type: "date" } // ✅ Filter out invalid/null createdAt
+        }
+      },
+      
+        {
         $group: {
           _id: { $month: "$createdAt" },
           total: { $sum: 1 }
