@@ -13,22 +13,11 @@ exports.submitForm = async (req, res) => {
       interestedProjects, preferredCity, preferredContact
     } = req.body;
 
-    const profileFilePath = req.file ? req.file.path : null;
+    // const profileFilePath = req.file ? req.file.path : null;
+    const profileFilePath = req.file ? `/uploads/documents/${req.file.filename}` : null;
+
 
     // STEP 1: Generate Form ID
-
-
-    // const formCount = await Form.countDocuments();
-    // const today = new Date();
-    // const datePart = today.toISOString().split("T")[0].replace(/-/g, "");
-    // const formId = `GLOB-${datePart}-${formCount + 1}`;
-
-
-
-    // ✅ New (unique and safe)
-    // const datePart = new Date().toISOString().split("T")[0].replace(/-/g, "");
-    // const formId = `GLOB-${datePart}-${Date.now()}`;
-
     const formCount = await Form.countDocuments();
     const datePart = new Date().toISOString().split("T")[0].replace(/-/g, "");
     const randomDigit = Math.floor(10 + Math.random() * 90); // 2-digit random number
@@ -47,14 +36,7 @@ exports.submitForm = async (req, res) => {
     await newForm.save();
 
     // STEP 3: Send Email
-    // const transporter = nodemailer.createTransport({
-    //   service: "gmail",
-    //   auth: {
-    //     user: process.env.EMAIL_USER,    
-    //     pass: process.env.EMAIL_PASS     
-    //   }
-    // });
-
+  
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT),
@@ -64,20 +46,6 @@ exports.submitForm = async (req, res) => {
         pass: process.env.EMAIL_PASS,
       },
     });
-
-
-    // const mailOptions = {
-    //   from: `GlobalProjects <${process.env.EMAIL_USER}>`,
-    //   to: email,
-    //   subject: `Form Submission Received - ID: ${formId}`,
-    //   html: `
-    //     <h2>Thank you for contacting GlobalProjects!</h2>
-    //     <p>Your Form ID is: <strong>${formId}</strong></p>
-    //     <p>We will review your submission and get back to you shortly.</p>
-    //     <br/>
-    //     <p>Regards,<br/>GlobalProjects Team</p>
-    //   `
-    // };
 
     const mailOptions = {
       from: `GlobalProjects <${process.env.EMAIL_USER}>`,
