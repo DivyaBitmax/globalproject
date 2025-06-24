@@ -49,3 +49,17 @@ exports.deleteProject = async (req, res) => {
     res.status(500).json({ success: false, error: err.message });
   }
 };
+
+
+exports.getLiveProjects = async (req, res) => {
+  try {
+    const liveProjects = await Project.find({ status: "LIVE" });
+    res.status(200).json({
+      success: true,
+      data: liveProjects,
+      count: liveProjects.length,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
