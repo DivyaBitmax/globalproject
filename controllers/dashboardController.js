@@ -1,4 +1,4 @@
-const Visitor = require("../models/Visitor");
+// const Visitor = require("../models/Visitor");
 const Form = require("../models/form")
 exports.getDashboardSummary = async (req, res) => {
   try {
