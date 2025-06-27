@@ -5,7 +5,7 @@ const path = require("path");
 const fs = require("fs");
 const formController = require("../controllers/formController");
 const dashboardController = require("../controllers/dashboardController");
-const visitorController = require("../controllers/visitorController");
+
 
 // Ensure 'uploads/documents' directory exists
 const uploadDir = path.join(__dirname, "../uploads/documents");
@@ -25,6 +25,7 @@ const upload = multer({
 });
 
 // Routes
+4
 router.post("/submit-form", upload.single("profileFile"), formController.submitForm);
 router.get("/get-forms", formController.getAllForms);
 
@@ -34,7 +35,6 @@ router.delete("/delete-form/:id", formController.deleteFormById);
 
 //dashboard
 router.get("/dashboard-summary", dashboardController.getDashboardSummary);
-router.post("/track-visitor", visitorController.trackVisitor);
 
 // In routes/formRoutes.js ya chartRoutes.js
 const chartController = require("../controllers/chartController");
