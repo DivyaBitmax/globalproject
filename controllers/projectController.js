@@ -11,7 +11,6 @@ const Project = require("../models/Project");
 //   }
 // };
 
-
 exports.createProject = async (req, res) => {
   try {
     const newProject = new Project(req.body);
@@ -21,12 +20,13 @@ exports.createProject = async (req, res) => {
     if (err.code === 11000) {
       return res.status(400).json({
         success: false,
-        message: `Duplicate entry for: ${Object.keys(err.keyValue).join(", ")}`,
+        error: "Duplicate Project Code or Client Code is not allowed",
       });
     }
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: err.message || "Server Error" });
   }
 };
+
 
 
 
