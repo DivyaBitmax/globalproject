@@ -33,8 +33,7 @@ app.use('/api/analytics', analyticsRoutes);
 
 
 
-const trackVisitor = require('./middlewares/trackVisitor');
-app.use(trackVisitor); // Register before your routes
+
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
