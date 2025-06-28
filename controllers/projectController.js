@@ -1,15 +1,34 @@
 // controllers/projectController.js
 const Project = require("../models/Project");
 
+// exports.createProject = async (req, res) => {
+//   try {
+//     const newProject = new Project(req.body);
+//     const saved = await newProject.save();
+//     res.status(201).json({ success: true, data: saved });
+//   } catch (err) {
+//     res.status(500).json({ success: false, error: err.message });
+//   }
+// };
+
+
 exports.createProject = async (req, res) => {
   try {
     const newProject = new Project(req.body);
     const saved = await newProject.save();
     res.status(201).json({ success: true, data: saved });
   } catch (err) {
+    if (err.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: `Duplicate entry for: ${Object.keys(err.keyValue).join(", ")}`,
+      });
+    }
     res.status(500).json({ success: false, error: err.message });
   }
 };
+
+
 
 exports.getAllProjects = async (req, res) => {
   try {
