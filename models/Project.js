@@ -6,7 +6,13 @@ const projectSchema = new mongoose.Schema({
   clientCode: { type: String, required: true },
   pdfLink: { type: String },
   imageUrl: { type: String },
-  status: { type: String, enum: ["LIVE", "HOLD"], default: "LIVE" },
+  // status: { type: String, enum: ["LIVE", "HOLD"], default: "LIVE" },
+  status: {
+  type: String,
+  enum: ['LIVE', 'HOLD', 'CLOSED'], // Allowed values
+  default: 'LIVE'
+},
+
   totalApplications: { type: Number, default: 0 },
   lastActivity: { type: Date, default: Date.now },
   country: { type: String },
