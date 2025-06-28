@@ -1,15 +1,7 @@
 // controllers/projectController.js
 const Project = require("../models/Project");
 
-// exports.createProject = async (req, res) => {
-//   try {
-//     const newProject = new Project(req.body);
-//     const saved = await newProject.save();
-//     res.status(201).json({ success: true, data: saved });
-//   } catch (err) {
-//     res.status(500).json({ success: false, error: err.message });
-//   }
-// };
+
 
 exports.createProject = async (req, res) => {
   try {

@@ -9,6 +9,12 @@ const projectSchema = new mongoose.Schema({
   status: { type: String, enum: ["LIVE", "HOLD"], default: "LIVE" },
   totalApplications: { type: Number, default: 0 },
   lastActivity: { type: Date, default: Date.now },
-  country: { type: String }
+  country: { type: String },
+ countdownEndDate: {
+  type: Date,
+  required: false, // ✅ make it optional
+  default: null    // ✅ good fallback
+}
+
 }, { timestamps: true });
 module.exports = mongoose.model("Project", projectSchema);
