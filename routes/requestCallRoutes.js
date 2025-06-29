@@ -4,5 +4,7 @@ const requestCallController = require("../controllers/requestCallController");
 
 router.post("/", requestCallController.createRequest);
 router.get("/", requestCallController.getAllRequests);
+// ✅ DELETE
+router.delete("/:id", requestCallController.deleteRequest);
 
 module.exports = router;

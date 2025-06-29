@@ -23,3 +23,21 @@ exports.getAllRequests = async (req, res) => {
     res.status(500).json({ success: false, error: "Server error" });
   }
 };
+
+
+// ✅ Delete request call by ID
+exports.deleteRequest = async (req, res) => {
+  try {
+    const requestId = req.params.id;
+    const deletedRequest = await RequestCall.findByIdAndDelete(requestId);
+
+    if (!deletedRequest) {
+      return res.status(404).json({ success: false, error: "Request not found" });
+    }
+
+    res.status(200).json({ success: true, message: "Request deleted successfully" });
+  } catch (err) {
+    console.error("Delete Request Error:", err);
+    res.status(500).json({ success: false, error: "Server error" });
+  }
+};
