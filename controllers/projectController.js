@@ -47,11 +47,6 @@ exports.createProject = async (req, res) => {
   }
 };
 
-
-
-
-
-
 exports.getAllProjects = async (req, res) => {
   try {
     const projects = await Project.find().sort({ createdAt: -1 });
@@ -94,7 +89,8 @@ exports.deleteProject = async (req, res) => {
 
 exports.getLiveProjects = async (req, res) => {
   try {
-    const liveProjects = await Project.find({ status: "LIVE" });
+    // const liveProjects = await Project.find({ status: "LIVE" });
+    const liveProjects = await Project.find({ status: "AVAILABLE" });
     res.status(200).json({
       success: true,
       data: liveProjects,

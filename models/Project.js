@@ -9,8 +9,8 @@ const projectSchema = new mongoose.Schema({
   // status: { type: String, enum: ["LIVE", "HOLD"], default: "LIVE" },
   status: {
   type: String,
-  enum: ['LIVE', 'HOLD', 'CLOSED'], // Allowed values
-  default: 'LIVE'
+  enum: ['AVAILABLE', 'HOLD', 'CLOSED'], // Allowed values
+  default: 'AVAILABLE'
 },
 
   totalApplications: { type: Number, default: 0 },
