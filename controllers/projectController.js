@@ -3,11 +3,39 @@ const Project = require("../models/Project");
 
 
 
+// exports.createProject = async (req, res) => {
+//   try {
+//     const newProject = new Project(req.body);
+//     const saved = await newProject.save();
+//     res.status(201).json({ success: true, data: saved });
+//   } catch (err) {
+//     if (err.code === 11000) {
+//       return res.status(400).json({
+//         success: false,
+//         error: "Duplicate Project Code or Client Code is not allowed",
+//       });
+//     }
+//     res.status(500).json({ success: false, error: err.message || "Server Error" });
+//   }
+// };
+
+
+
+
+
 exports.createProject = async (req, res) => {
   try {
-    const newProject = new Project(req.body);
+    const { body, files } = req;
+
+    const newProject = new Project({
+      ...body,
+      imageUrl: files?.imageFile?.[0]?.path || body.imageUrl,
+      pdfLink: files?.pdfFile?.[0]?.path || body.pdfLink,
+    });
+
     const saved = await newProject.save();
     res.status(201).json({ success: true, data: saved });
+
   } catch (err) {
     if (err.code === 11000) {
       return res.status(400).json({
@@ -15,9 +43,11 @@ exports.createProject = async (req, res) => {
         error: "Duplicate Project Code or Client Code is not allowed",
       });
     }
-    res.status(500).json({ success: false, error: err.message || "Server Error" });
+    res.status(500).json({ success: false, error: err.message });
   }
 };
+
+
 
 
 
