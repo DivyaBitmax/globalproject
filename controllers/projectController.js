@@ -48,15 +48,18 @@ const Project = require("../models/Project");
 // };
 
 
-
 exports.createProject = async (req, res) => {
   try {
     const { body, files } = req;
 
+    // Debug logs to verify file upload
+    console.log("Image File Info:", files?.imageFile?.[0]);
+    console.log("PDF File Info:", files?.pdfFile?.[0]);
+
     const newProject = new Project({
       ...body,
-      imageUrl: files?.imageFile?.[0]?.secure_url || null,
-      pdfLink: files?.pdfFile?.[0]?.secure_url || null,
+      imageUrl: files?.imageFile?.[0]?.secure_url || files?.imageFile?.[0]?.path || null,
+      pdfLink: files?.pdfFile?.[0]?.secure_url || files?.pdfFile?.[0]?.path || null,
     });
 
     const saved = await newProject.save();
@@ -72,6 +75,7 @@ exports.createProject = async (req, res) => {
     res.status(500).json({ success: false, error: err.message });
   }
 };
+
 
 
 exports.getAllProjects = async (req, res) => {
