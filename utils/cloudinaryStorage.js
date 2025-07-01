@@ -20,6 +20,29 @@
 
 
 // utils/cloudinaryStorage.js
+// const multer = require('multer');
+// const { CloudinaryStorage } = require('multer-storage-cloudinary');
+// const cloudinary = require('../config/cloudinary');
+// const path = require('path');
+
+// const storage = new CloudinaryStorage({
+//   cloudinary,
+//   params: async (req, file) => {
+//     const ext = path.extname(file.originalname); // get .jpg, .png, .pdf
+//     return {
+//       folder: 'global-projects',
+//       resource_type: file.mimetype.startsWith('application') ? 'raw' : 'image',
+//          type: 'upload', // 👈 MAKE FILE PUBLIC
+//       public_id: `${Date.now()}-${file.fieldname}${ext}`, // 👈 force extension
+//     };
+//   },
+// });
+
+// module.exports = multer({ storage });
+
+
+
+// utils/cloudinaryStorage.js
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('../config/cloudinary');
@@ -28,12 +51,13 @@ const path = require('path');
 const storage = new CloudinaryStorage({
   cloudinary,
   params: async (req, file) => {
-    const ext = path.extname(file.originalname); // get .jpg, .png, .pdf
+    const ext = path.extname(file.originalname).replace('.', ''); // remove dot
+    const filename = `${Date.now()}-${file.fieldname}.${ext}`; // proper format
     return {
       folder: 'global-projects',
       resource_type: file.mimetype.startsWith('application') ? 'raw' : 'image',
-         type: 'upload', // 👈 MAKE FILE PUBLIC
-      public_id: `${Date.now()}-${file.fieldname}${ext}`, // 👈 force extension
+      public_id: filename, // ✅ correct extension only once
+      type: 'upload', // ✅ keep public
     };
   },
 });
