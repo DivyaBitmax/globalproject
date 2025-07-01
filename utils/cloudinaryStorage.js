@@ -53,11 +53,10 @@ const storage = new CloudinaryStorage({
 
     return {
       folder: 'global-projects',
-      resource_type: file.mimetype.includes('pdf') ? 'raw' :
-                     file.mimetype.startsWith('application') ? 'auto' : 'image',
+      resource_type: 'auto', // ✅ use auto instead of raw
       public_id: filename,
       type: 'upload',
-      access_mode: 'public', // ✅ THIS IS THE KEY FIX
+      access_mode: 'public', // ✅ ensure public access
     };
   },
 });
