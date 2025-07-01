@@ -31,7 +31,8 @@ const storage = new CloudinaryStorage({
     return {
       folder: 'global-projects',
       public_id: `${Date.now()}-${file.originalname}`,
-      resource_type: isPDF ? 'raw' : 'image', // ✅ Correct place
+      // resource_type: isPDF ? 'raw' : 'image', // ✅ Correct place
+       resource_type: 'auto', // change here
     };
   }
 });
