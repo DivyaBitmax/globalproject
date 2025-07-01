@@ -40,7 +40,6 @@
 
 // module.exports = multer({ storage });
 
-
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('../config/cloudinary');
@@ -49,14 +48,16 @@ const path = require('path');
 const storage = new CloudinaryStorage({
   cloudinary,
   params: async (req, file) => {
-    const ext = path.extname(file.originalname).replace('.', ''); // remove dot
+    const ext = path.extname(file.originalname).replace('.', '');
     const filename = `${Date.now()}-${file.fieldname}.${ext}`;
-    
+
     return {
       folder: 'global-projects',
-      resource_type: file.mimetype.includes('pdf') ? 'raw' : (file.mimetype.startsWith('application') ? 'auto' : 'image'),
+      resource_type: file.mimetype.includes('pdf') ? 'raw' :
+                     file.mimetype.startsWith('application') ? 'auto' : 'image',
       public_id: filename,
       type: 'upload',
+      access_mode: 'public', // ✅ THIS IS THE KEY FIX
     };
   },
 });
