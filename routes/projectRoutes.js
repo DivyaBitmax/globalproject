@@ -6,44 +6,22 @@ const upload = require("../utils/cloudinaryStorage"); // 👈 import multer-clou
 
 // router.post("/", projectController.createProject);        // POST /api/projects
 // For uploading both PDF and Image
-// router.post("/", upload.fields([
-//   { name: "imageFile", maxCount: 1 },
-//   { name: "pdfFile", maxCount: 1 }
-// ]), projectController.createProject);
-
-
-
-
-const uploadImage = require("../utils/imageUpload");
-const uploadPDF = require("../utils/pdfUpload");
-
-router.post(
-  "/",
-  uploadImage.fields([{ name: "imageFile", maxCount: 1 }]),
-  uploadPDF.fields([{ name: "pdfFile", maxCount: 1 }]),
-  projectController.createProject
-);
+router.post("/", upload.fields([
+  { name: "imageFile", maxCount: 1 },
+  { name: "pdfFile", maxCount: 1 }
+]), projectController.createProject);
 
 
 router.get("/", projectController.getAllProjects);        // GET /api/projects
 router.get("/live", projectController.getLiveProjects);    //  GET /api/projects/live
 router.get("/:id", projectController.getProjectById);     // GET /api/projects/:id
 // router.put("/:id", projectController.updateProject);      // PUT /api/projects/:id
-// router.put(
-//   "/:id",
-//   upload.fields([
-//     { name: "imageFile", maxCount: 1 },
-//     { name: "pdfFile", maxCount: 1 },
-//   ]),
-//   projectController.updateProject
-// );
-
-
-
 router.put(
   "/:id",
-  uploadImage.fields([{ name: "imageFile", maxCount: 1 }]),
-  uploadPDF.fields([{ name: "pdfFile", maxCount: 1 }]),
+  upload.fields([
+    { name: "imageFile", maxCount: 1 },
+    { name: "pdfFile", maxCount: 1 },
+  ]),
   projectController.updateProject
 );
 
