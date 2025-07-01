@@ -32,6 +32,7 @@ const storage = new CloudinaryStorage({
     return {
       folder: 'global-projects',
       resource_type: file.mimetype.startsWith('application') ? 'raw' : 'image',
+         type: 'upload', // 👈 MAKE FILE PUBLIC
       public_id: `${Date.now()}-${file.fieldname}${ext}`, // 👈 force extension
     };
   },
