@@ -15,6 +15,8 @@ exports.createProject = async (req, res) => {
       ...body,
       imageUrl: files?.imageFile?.[0]?.secure_url || files?.imageFile?.[0]?.path || null,
       pdfLink: files?.pdfFile?.[0]?.secure_url || files?.pdfFile?.[0]?.path || null,
+       originalFileName: files?.pdfFile?.[0]?.originalname || null, // ✅ NEW LINE
+
     });
 
     const saved = await newProject.save();
@@ -74,6 +76,7 @@ exports.updateProject = async (req, res) => {
 
     if (files?.pdfFile?.[0]) {
       updateData.pdfLink = files.pdfFile[0].secure_url || files.pdfFile[0].path;
+       updateData.originalFileName = files.pdfFile[0].originalname || null; // ✅ NEW LINE
     }
 
     const updated = await Project.findByIdAndUpdate(req.params.id, updateData, { new: true });

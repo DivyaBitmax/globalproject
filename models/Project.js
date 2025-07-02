@@ -5,6 +5,7 @@ const projectSchema = new mongoose.Schema({
   projectCode: { type: String, required: true, unique: true },
   clientCode: { type: String, required: true },
   pdfLink: { type: String },
+  originalFileName: { type: String }, // 👈 NEW LINE
   imageUrl: { type: String },
   // status: { type: String, enum: ["LIVE", "HOLD"], default: "LIVE" },
   status: {
