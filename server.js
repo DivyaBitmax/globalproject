@@ -29,7 +29,8 @@ const analyticsRoutes = require('./routes/analyticsRoutes');
 app.use('/api/analytics', analyticsRoutes);
 // requtesCall
 app.use("/api/request-call", require("./routes/requestCallRoutes"));
-//adminlogin + viewr
+
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
