@@ -13,8 +13,8 @@ exports.submitForm = async (req, res) => {
       interestedProjects, preferredCity, preferredContact
     } = req.body;
 
-    // const profileFilePath = req.file ? req.file.path : null;
-    const profileFilePath = req.file ? `/uploads/documents/${req.file.filename}` : null;
+    const profileFilePath = req.file ? req.file.path : null;
+    //const profileFilePath = req.file ? `/uploads/documents/${req.file.filename}` : null;
 
 
     // STEP 1: Generate Form ID
