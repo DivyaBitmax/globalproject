@@ -30,11 +30,12 @@ exports.createProject = async (req, res) => {
     if (req.file && req.file.path) {
       projectData.pdfLink = req.file.path; // ✅ Cloudinary PDF URL
     }
-
+ console.log("📦 Project Data:", projectData); // Add this line
     const newProject = new ProjectDetail(projectData);
     await newProject.save();
     res.status(201).json(newProject);
   } catch (err) {
+     console.error("❌ Create Project Error:", err); // Add this
     res.status(400).json({ message: err.message });
   }
 };

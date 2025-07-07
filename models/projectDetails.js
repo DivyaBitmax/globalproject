@@ -12,6 +12,8 @@ const projectDetailsSchema = new mongoose.Schema({
   projectStatus: { type: String },
   tatGoLive: { type: String },
   pdfLink: { type: String },
+
+  
 }, { timestamps: true });
 
 module.exports = mongoose.model("ProjectDetail", projectDetailsSchema);
