@@ -1,24 +1,59 @@
 const Client = require("../models/Client");
 
 // 🔍 GET all clients
+// exports.getClients = async (req, res) => {
+//   try {
+//     const clients = await Client.find();
+//     res.json(clients);
+//   } catch (err) {
+//     res.status(500).json({ message: "Server Error" });
+//   }
+// };
+
+
 exports.getClients = async (req, res) => {
   try {
-    const clients = await Client.find();
+    let clients;
+    if (req.user.role === "admin") {
+      clients = await Client.find(); // Admin can see all
+    } else {
+      clients = await Client.find({ createdBy: req.user.id }); // User can only see their own
+    }
+
     res.json(clients);
   } catch (err) {
     res.status(500).json({ message: "Server Error" });
   }
 };
 
+
+
 // ➕ CREATE new client
+// exports.createClient = async (req, res) => {
+//   try {
+//     const newClient = await Client.create(req.body);
+//     res.status(201).json(newClient);
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// };
+
+
 exports.createClient = async (req, res) => {
   try {
-    const newClient = await Client.create(req.body);
+    const clientData = {
+      ...req.body,
+      createdBy: req.user.id, // ✅ logged-in user's ID
+    };
+
+    const newClient = await Client.create(clientData);
     res.status(201).json(newClient);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 };
+
+
 
 // ✏️ UPDATE client — admin only
 exports.updateClient = async (req, res) => {

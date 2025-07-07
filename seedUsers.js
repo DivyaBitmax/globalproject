@@ -25,9 +25,13 @@ const User = mongoose.model("User", userSchema);
 
 // Sample Users
 const users = [
-  { username: "Abhishek@123", password: "AbhishekBitmax2020", role: "admin" },
-  { username: "user1", password: "user123", role: "user" },
-  { username: "user2", password: "user123", role: "user" },
+  { username: "Abhishek@123", password: "Abhishek@Bitmax2020", role: "admin" },
+  { username: "aneetagp", password: "Aneeta@123", role: "user" },
+  { username: "aarjugp", password: "Aarju@123", role: "user" },
+  { username: "sakshigp", password: "Sakshi@123", role: "user" },
+  { username: "khushboogp", password: "Khushboo@123", role: "user" },
+  { username: "vanshgp", password: "Vansh@123", role: "user" },
+  { username: "divyagp", password: "Divya@123", role: "user" },
 ];
 
 // Insert Users

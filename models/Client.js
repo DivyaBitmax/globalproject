@@ -11,6 +11,13 @@ const clientSchema = new mongoose.Schema({
   attendedBy: String,
   status: { type: String, enum: ["Active", "Inactive"], default: "Active" },
   remarks: String,
+  // ✅ Track which user created this
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+
 });
 
 module.exports = mongoose.model("Client", clientSchema);
