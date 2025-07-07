@@ -28,12 +28,16 @@ const analyticsRoutes = require('./routes/analyticsRoutes');
 app.use('/api/analytics', analyticsRoutes);
 // requtesCall
 app.use("/api/request-call", require("./routes/requestCallRoutes"));
+
 //adminlogin + viewr (CRM)
 const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
-//client
+//client(CRM)
 const clientRoutes = require("./routes/clientRoutes");
 app.use("/api/clients", clientRoutes);
+//project(CRM)
+const projectDetailsRoutes = require("./routes/ProjectDetails");
+app.use("/api/project-details", projectDetailsRoutes);
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
