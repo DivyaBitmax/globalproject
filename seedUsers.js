@@ -13,7 +13,8 @@ mongoose
 
 // Define same User schema used in your app
 const userSchema = new mongoose.Schema({
-  email: { type: String, unique: true },
+  // email: { type: String, unique: true },
+  username: { type: String, unique: true, required: true }, // ✅ Changed to username
   password: String,
   role: { type: String, enum: ["user", "admin"], default: "user" },
   resetToken: String,
@@ -24,9 +25,9 @@ const User = mongoose.model("User", userSchema);
 
 // Sample Users
 const users = [
-  { email: "admin@example.com", password: "admin123", role: "admin" },
-  { email: "user1@example.com", password: "user123", role: "user" },
-  { email: "user2@example.com", password: "user123", role: "user" },
+  { username: "admin", password: "admin123", role: "admin" },
+  { username: "user1", password: "user123", role: "user" },
+  { username: "user2", password: "user123", role: "user" },
 ];
 
 // Insert Users
@@ -34,11 +35,19 @@ const seedUsers = async () => {
   try {
     await User.deleteMany(); // Optional: clear previous users
 
-    for (const u of users) {
-      const hashedPassword = await bcrypt.hash(u.password, 10);
-      await User.create({ email: u.email, password: hashedPassword, role: u.role });
-    }
+    // for (const u of users) {
+    //   const hashedPassword = await bcrypt.hash(u.password, 10);
+    //   await User.create({ email: u.email, password: hashedPassword, role: u.role });
+    // }
 
+     for (const u of users) {
+      const hashedPassword = await bcrypt.hash(u.password, 10);
+      await User.create({
+        username: u.username,
+        password: hashedPassword,
+        role: u.role,
+      });
+    }
     console.log("🎉 Users seeded successfully");
     mongoose.disconnect();
   } catch (err) {
