@@ -13,7 +13,7 @@ const generateToken = (user) => {
 exports.login = async (req, res) => {
   // const { email, password } = req.body;
    const { username, password } = req.body; // ✅ email → username
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ username });
   if (!user || !(await user.comparePassword(password))) {
     return res.status(401).json({ success: false, message: "Invalid credentials" });
   }
