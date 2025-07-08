@@ -37,27 +37,6 @@ exports.createClient = async (req, res) => {
 
 
 
-// ✏️ UPDATE client — admin only
-// exports.updateClient = async (req, res) => {
-//   if (req.user.role !== "admin") {
-//     return res.status(403).json({ message: "Access denied" });
-//   }
-
-//   try {
-//     const updated = await Client.findByIdAndUpdate(req.params.id, req.body, { new: true });
-//     if (!updated) return res.status(404).json({ message: "Client not found" });
-//     res.json(updated);
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// };
-
-
-
-
-
-
-
 
 exports.updateClient = async (req, res) => {
   try {
@@ -141,6 +120,52 @@ exports.getActiveClientsCount = async (req, res) => {
     res.json({ activeClients: count });
   } catch (err) {
     console.error("Error fetching active clients", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+
+// 👇 User-wise client stats (today & monthly)
+exports.getClientStatsByUser = async (req, res) => {
+  try {
+    const users = [
+      "aneetagp", "aarjugp", "sakshigp", 
+      "khushboogp", "vanshgp", "divyagp"
+    ];
+
+    const IST_OFFSET = 5.5 * 60 * 60 * 1000;
+    const now = new Date();
+
+    const istNow = new Date(now.getTime() + IST_OFFSET);
+    const istStartOfToday = new Date(istNow.setHours(0, 0, 0, 0));
+    const istStartOfMonth = new Date(istNow.getFullYear(), istNow.getMonth(), 1);
+
+    const startOfTodayUTC = new Date(istStartOfToday.getTime() - IST_OFFSET);
+    const startOfMonthUTC = new Date(istStartOfMonth.getTime() - IST_OFFSET);
+
+    const stats = {};
+
+    for (const username of users) {
+      const todayCount = await Client.countDocuments({
+        createdByUsername: username,
+        createdAt: { $gte: startOfTodayUTC }
+      });
+
+      const monthlyCount = await Client.countDocuments({
+        createdByUsername: username,
+        createdAt: { $gte: startOfMonthUTC }
+      });
+
+      stats[username] = {
+        today: todayCount,
+        monthly: monthlyCount
+      };
+    }
+
+    res.json(stats);
+  } catch (err) {
+    console.error("User-wise stats error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
