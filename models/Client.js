@@ -1,9 +1,6 @@
 const mongoose = require("mongoose");
 
 const clientSchema = new mongoose.Schema({
-  // name: { type: String, required: true },
-  // mobile: { type: String, required: true },
-  // email: { type: String, required: true },
    name: { type: String },  // removed required
   mobile: { type: String },  // removed required
   email: { type: String },  // removed required
@@ -20,6 +17,14 @@ const clientSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+
+
+   // ✅ 👇 ADD THIS FIELD (required for charts)
+  createdByUsername: {
+    type: String,
+    required: true
+  }
+
 
 }, { timestamps: true });
 
