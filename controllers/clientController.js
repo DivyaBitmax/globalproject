@@ -1,14 +1,6 @@
 const Client = require("../models/Client");
 
-// 🔍 GET all clients
-// exports.getClients = async (req, res) => {
-//   try {
-//     const clients = await Client.find();
-//     res.json(clients);
-//   } catch (err) {
-//     res.status(500).json({ message: "Server Error" });
-//   }
-// };
+
 
 
 exports.getClients = async (req, res) => {
@@ -28,16 +20,6 @@ exports.getClients = async (req, res) => {
 
 
 
-// ➕ CREATE new client
-// exports.createClient = async (req, res) => {
-//   try {
-//     const newClient = await Client.create(req.body);
-//     res.status(201).json(newClient);
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// };
-
 
 exports.createClient = async (req, res) => {
   try {
@@ -56,19 +38,47 @@ exports.createClient = async (req, res) => {
 
 
 // ✏️ UPDATE client — admin only
-exports.updateClient = async (req, res) => {
-  if (req.user.role !== "admin") {
-    return res.status(403).json({ message: "Access denied" });
-  }
+// exports.updateClient = async (req, res) => {
+//   if (req.user.role !== "admin") {
+//     return res.status(403).json({ message: "Access denied" });
+//   }
 
+//   try {
+//     const updated = await Client.findByIdAndUpdate(req.params.id, req.body, { new: true });
+//     if (!updated) return res.status(404).json({ message: "Client not found" });
+//     res.json(updated);
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// };
+
+
+
+
+
+
+
+
+exports.updateClient = async (req, res) => {
   try {
-    const updated = await Client.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updated) return res.status(404).json({ message: "Client not found" });
+    // ✅ Admin can edit any, user can only edit their own
+    let query = { _id: req.params.id };
+    if (req.user.role !== "admin") {
+      query.createdBy = req.user.id;
+    }
+
+    const updated = await Client.findOneAndUpdate(query, req.body, { new: true });
+
+    if (!updated) return res.status(404).json({ message: "Client not found or access denied" });
+
     res.json(updated);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 };
+
+
+
 
 // ❌ DELETE client — admin only
 exports.deleteClient = async (req, res) => {
@@ -95,27 +105,6 @@ exports.getTotalClients = async (req, res) => {
   }
 };
 
-
-
-// 📅 Count today’s added clients
-// exports.getTodayClientsCount = async (req, res) => {
-//   try {
-//     const today = new Date();
-//     today.setHours(0, 0, 0, 0); // Start of today
-
-//     const tomorrow = new Date(today);
-//     tomorrow.setDate(today.getDate() + 1); // Start of tomorrow
-
-//     const count = await Client.countDocuments({
-//       createdAt: { $gte: today, $lt: tomorrow },
-//     });
-
-//     res.json({ todayClients: count });
-//   } catch (err) {
-//     console.error("Error getting today’s clients", err);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// };
 
 
 exports.getTodayClientsCount = async (req, res) => {
