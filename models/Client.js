@@ -1,9 +1,12 @@
 const mongoose = require("mongoose");
 
 const clientSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  mobile: { type: String, required: true },
-  email: { type: String, required: true },
+  // name: { type: String, required: true },
+  // mobile: { type: String, required: true },
+  // email: { type: String, required: true },
+   name: { type: String },  // removed required
+  mobile: { type: String },  // removed required
+  email: { type: String },  // removed required
   projectInterested: String,
   projectCode: String,
   location: String,
