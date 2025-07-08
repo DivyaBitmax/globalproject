@@ -26,7 +26,6 @@ exports.createClient = async (req, res) => {
     const clientData = {
       ...req.body,
       createdBy: req.user.id, // ✅ logged-in user's ID
-      createdByUsername: req.user.username // ✅ Add this line
     };
 
     const newClient = await Client.create(clientData);

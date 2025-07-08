@@ -17,14 +17,7 @@ const clientSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-
-
-   // ✅ 👇 ADD THIS FIELD (required for charts)
-  createdByUsername: {
-    type: String,
-    required: true
-  }
-
+  
 
 }, { timestamps: true });
 
