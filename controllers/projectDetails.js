@@ -9,42 +9,10 @@ exports.getAllProjects = async (req, res) => {
   }
 };
 
-// exports.createProject = async (req, res) => {
-//   if (req.user.role !== 'admin') return res.status(403).json({ message: "Access denied" });
-//   try {
-//     const newProject = new ProjectDetail(req.body);
-//     await newProject.save();
-//     res.status(201).json(newProject);
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// };
-
-
-// exports.createProject = async (req, res) => {
-//   if (req.user.role !== 'admin') return res.status(403).json({ message: "Access denied" });
-
-//   try {
-//     const projectData = req.body;
-
-//     if (req.file && req.file.path) {
-//       projectData.pdfLink = req.file.path; // ✅ Cloudinary PDF URL
-//     }
-//  console.log("📦 Project Data:", projectData); // Add this line
-//     const newProject = new ProjectDetail(projectData);
-//     await newProject.save();
-//     res.status(201).json(newProject);
-//   } catch (err) {
-//      console.error("❌ Create Project Error:", err); // Add this
-//     res.status(400).json({ message: err.message });
-//   }
-// };
-
-
-
 
 exports.createProject = async (req, res) => {
-  if (req.user.role !== 'admin') return res.status(403).json({ message: "Access denied" });
+  // if (req.user.role !== 'admin') return res.status(403).json({ message: "Access denied" });
+if (req.user.role !== 'admin') return res.status(403).json({ message: "Access denied" });
 
   console.log("✅ REQ BODY:", req.body);
   console.log("✅ FILE:", req.file);
@@ -68,8 +36,6 @@ exports.createProject = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
-
-
 
 exports.updateProject = async (req, res) => {
   if (req.user.role !== 'admin') return res.status(403).json({ message: "Access denied" });
