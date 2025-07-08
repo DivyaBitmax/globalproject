@@ -7,5 +7,9 @@ router.get("/", protect, clientController.getClients);
 router.post("/", protect, clientController.createClient);
 router.put("/:id", protect, clientController.updateClient);
 router.delete("/:id", protect, clientController.deleteClient);
+router.get("/total", protect, clientController.getTotalClients);
+router.get("/today", protect, clientController.getTodayClientsCount);
+router.get("/active", protect, clientController.getActiveClientsCount);
+
 
 module.exports = router;

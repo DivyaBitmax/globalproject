@@ -84,3 +84,74 @@ exports.deleteClient = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// ✅ GET total number of clients
+exports.getTotalClients = async (req, res) => {
+  try {
+    const total = await Client.countDocuments();
+    res.json({ total });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+
+// 📅 Count today’s added clients
+// exports.getTodayClientsCount = async (req, res) => {
+//   try {
+//     const today = new Date();
+//     today.setHours(0, 0, 0, 0); // Start of today
+
+//     const tomorrow = new Date(today);
+//     tomorrow.setDate(today.getDate() + 1); // Start of tomorrow
+
+//     const count = await Client.countDocuments({
+//       createdAt: { $gte: today, $lt: tomorrow },
+//     });
+
+//     res.json({ todayClients: count });
+//   } catch (err) {
+//     console.error("Error getting today’s clients", err);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
+
+exports.getTodayClientsCount = async (req, res) => {
+  try {
+    const IST_OFFSET = 5.5 * 60 * 60 * 1000; // IST = UTC + 5:30
+    const now = new Date();
+
+    // Create IST date
+    const istDate = new Date(now.getTime() + IST_OFFSET);
+
+    const istStartOfDay = new Date(istDate.setHours(0, 0, 0, 0));
+    const istEndOfDay = new Date(istDate.setHours(24, 0, 0, 0));
+
+    // Convert back to UTC for MongoDB comparison
+    const startUTC = new Date(istStartOfDay.getTime() - IST_OFFSET);
+    const endUTC = new Date(istEndOfDay.getTime() - IST_OFFSET);
+
+    const count = await Client.countDocuments({
+      createdAt: { $gte: startUTC, $lt: endUTC },
+    });
+
+    res.json({ todayClients: count });
+  } catch (err) {
+    console.error("Error getting today’s clients", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+// ✅ GET total active clients
+exports.getActiveClientsCount = async (req, res) => {
+  try {
+    const count = await Client.countDocuments({ status: "Active" });
+    res.json({ activeClients: count });
+  } catch (err) {
+    console.error("Error fetching active clients", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
