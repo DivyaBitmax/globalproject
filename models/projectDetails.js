@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const projectDetailsSchema = new mongoose.Schema({
-  projectCode: { type: String, required: true },
-  projectType: { type: String, required: true },
+  projectCode: { type: String},
+  projectType: { type: String },
   projectDetails: { type: String },
   moneyPayout: { type: String },
   monthlyPayout: { type: String },               // ✅ NEW
