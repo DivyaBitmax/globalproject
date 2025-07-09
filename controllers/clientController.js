@@ -1,8 +1,5 @@
 const Client = require("../models/Client");
 
-
-
-
 exports.getClients = async (req, res) => {
   try {
     let clients;
@@ -17,8 +14,6 @@ exports.getClients = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
-
-
 
 
 exports.createClient = async (req, res) => {
@@ -59,7 +54,7 @@ exports.updateClient = async (req, res) => {
 
 
 
-// ❌ DELETE client — admin only
+//  DELETE client — admin only
 exports.deleteClient = async (req, res) => {
   if (req.user.role !== "admin") {
     return res.status(403).json({ message: "Access denied" });
@@ -74,7 +69,7 @@ exports.deleteClient = async (req, res) => {
   }
 };
 
-// ✅ GET total number of clients
+//  GET total number of clients
 exports.getTotalClients = async (req, res) => {
   try {
     const total = await Client.countDocuments();
@@ -113,7 +108,7 @@ exports.getTodayClientsCount = async (req, res) => {
 };
 
 
-// ✅ GET total active clients
+//  GET total active clients
 exports.getActiveClientsCount = async (req, res) => {
   try {
     const count = await Client.countDocuments({ status: "Active" });
@@ -126,17 +121,20 @@ exports.getActiveClientsCount = async (req, res) => {
 
 
 
-// 👇 User-wise client stats (today & monthly)
+//  User-wise client stats (today & monthly)
+
+const User = require("../models/User");
+const mongoose = require("mongoose");
+
 exports.getClientStatsByUser = async (req, res) => {
   try {
     const users = [
-      "aneetagp", "aarjugp", "sakshigp", 
+      "aneetagp", "aarjugp", "sakshigp",
       "khushboogp", "vanshgp", "divyagp"
     ];
 
     const IST_OFFSET = 5.5 * 60 * 60 * 1000;
     const now = new Date();
-
     const istNow = new Date(now.getTime() + IST_OFFSET);
     const istStartOfToday = new Date(istNow.setHours(0, 0, 0, 0));
     const istStartOfMonth = new Date(istNow.getFullYear(), istNow.getMonth(), 1);
@@ -147,13 +145,21 @@ exports.getClientStatsByUser = async (req, res) => {
     const stats = {};
 
     for (const username of users) {
+      //  Step 1: Get user by username
+      const user = await User.findOne({ username });
+      if (!user) {
+        stats[username] = { today: 0, monthly: 0 };
+        continue;
+      }
+
+      //  Step 2: Count clients created by that user._id
       const todayCount = await Client.countDocuments({
-        createdByUsername: username,
+        createdBy: user._id,
         createdAt: { $gte: startOfTodayUTC }
       });
 
       const monthlyCount = await Client.countDocuments({
-        createdByUsername: username,
+        createdBy: user._id,
         createdAt: { $gte: startOfMonthUTC }
       });
 
