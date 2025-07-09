@@ -38,9 +38,18 @@ exports.createClient = async (req, res) => {
     const { name, email, mobile, projectInterested, projectCode, location } = req.body;
 
     // ✅ Check for existing client (same email + mobile)
+    // const existingClient = await Client.findOne({
+    //   email,
+    //   mobile,
+    // });
+
+    // if (existingClient) {
+    //   return res.status(409).json({ message: "Client already exists" });
+    // }
+
+  // ✅ Check if email OR mobile already exists
     const existingClient = await Client.findOne({
-      email,
-      mobile,
+      $or: [{ email }, { mobile }],
     });
 
     if (existingClient) {
