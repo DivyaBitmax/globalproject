@@ -27,7 +27,9 @@ router.get("/", protect, controller.getAllProjects);
 router.post("/", protect, upload.single("pdfFile"), controller.createProject);
 
 // Update/Delete (admin-only, role check is inside controller)
-router.put("/:id", protect, controller.updateProject);
+// router.put("/:id", protect, controller.updateProject);
+router.put("/:id", protect, upload.single("pdfFile"), controller.updateProject);
+
 router.delete("/:id", protect, controller.deleteProject);
 
 module.exports = router;

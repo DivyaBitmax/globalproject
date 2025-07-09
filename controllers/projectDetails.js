@@ -36,15 +36,39 @@ if (req.user.role !== 'admin') return res.status(403).json({ message: "Access de
   }
 };
 
+// exports.updateProject = async (req, res) => {
+//   if (req.user.role !== 'admin') return res.status(403).json({ message: "Access denied" });
+//   try {
+//     const updated = await ProjectDetail.findByIdAndUpdate(req.params.id, req.body, { new: true });
+//     res.json(updated);
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// };
+
+
+
 exports.updateProject = async (req, res) => {
   if (req.user.role !== 'admin') return res.status(403).json({ message: "Access denied" });
+
   try {
-    const updated = await ProjectDetail.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const projectId = req.params.id;
+    const updatedData = req.body;
+
+    // ✅ If new PDF uploaded, update pdfLink
+    if (req.file && req.file.path) {
+      updatedData.pdfLink = req.file.path;
+    }
+
+    const updated = await ProjectDetail.findByIdAndUpdate(projectId, updatedData, { new: true });
+
     res.json(updated);
   } catch (err) {
+    console.error("❌ Update Error:", err);
     res.status(400).json({ message: err.message });
   }
 };
+
 
 exports.deleteProject = async (req, res) => {
   if (req.user.role !== 'admin') return res.status(403).json({ message: "Access denied" });
