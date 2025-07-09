@@ -16,8 +16,37 @@ exports.getClients = async (req, res) => {
 };
 
 
+// exports.createClient = async (req, res) => {
+//   try {
+//     const clientData = {
+//       ...req.body,
+//       createdBy: req.user.id, // ✅ logged-in user's ID
+//     };
+
+//     const newClient = await Client.create(clientData);
+//     res.status(201).json(newClient);
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// };
+
+
+
+
 exports.createClient = async (req, res) => {
   try {
+    const { name, email, mobile, projectInterested, projectCode, location } = req.body;
+
+    // ✅ Check for existing client (same email + mobile)
+    const existingClient = await Client.findOne({
+      email,
+      mobile,
+    });
+
+    if (existingClient) {
+      return res.status(409).json({ message: "Client already exists" });
+    }
+
     const clientData = {
       ...req.body,
       createdBy: req.user.id, // ✅ logged-in user's ID
