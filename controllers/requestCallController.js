@@ -41,3 +41,27 @@ exports.deleteRequest = async (req, res) => {
     res.status(500).json({ success: false, error: "Server error" });
   }
 };
+
+
+// ✅ Update request call by ID
+exports.updateRequest = async (req, res) => {
+  try {
+    const requestId = req.params.id;
+    const { name, email, phone, remarks } = req.body;
+
+    const updated = await RequestCall.findByIdAndUpdate(
+      requestId,
+      { name, email, phone, remarks },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ success: false, error: "Request not found" });
+    }
+
+    res.status(200).json({ success: true, message: "Request updated successfully", data: updated });
+  } catch (err) {
+    console.error("Update Request Error:", err);
+    res.status(500).json({ success: false, error: "Server error" });
+  }
+};
