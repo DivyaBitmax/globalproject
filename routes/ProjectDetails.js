@@ -31,5 +31,6 @@ router.post("/", protect, upload.single("pdfFile"), controller.createProject);
 router.put("/:id", protect, upload.single("pdfFile"), controller.updateProject);
 
 router.delete("/:id", protect, controller.deleteProject);
+router.get("/search", protect, controller.searchProjects);
 
 module.exports = router;

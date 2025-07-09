@@ -82,4 +82,21 @@ exports.deleteProject = async (req, res) => {
 
 
 
+// controllers/projectDetails.js
+exports.searchProjects = async (req, res) => {
+  const { query } = req.query;
 
+  if (!query) {
+    return res.status(400).json({ message: "Project code query is required" });
+  }
+
+  try {
+    const results = await ProjectDetail.find({
+      projectCode: { $regex: query, $options: "i" },
+    });
+
+    res.json(results);
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
