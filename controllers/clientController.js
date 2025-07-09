@@ -16,22 +16,6 @@ exports.getClients = async (req, res) => {
 };
 
 
-// exports.createClient = async (req, res) => {
-//   try {
-//     const clientData = {
-//       ...req.body,
-//       createdBy: req.user.id, // ✅ logged-in user's ID
-//     };
-
-//     const newClient = await Client.create(clientData);
-//     res.status(201).json(newClient);
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// };
-
-
-
 
 exports.createClient = async (req, res) => {
   try {
@@ -210,6 +194,28 @@ exports.getClientStatsByUser = async (req, res) => {
     res.json(stats);
   } catch (err) {
     console.error("User-wise stats error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+
+
+// 🔍 Search client by mobile number
+exports.searchClientByMobile = async (req, res) => {
+  try {
+    const { mobile } = req.query;
+
+    if (!mobile) {
+      return res.status(400).json({ message: "Mobile number is required" });
+    }
+
+    const regex = new RegExp("^" + mobile); // optional: use partial matching
+    const clients = await Client.find({ mobile: { $regex: regex } });
+
+    res.json(clients);
+  } catch (err) {
+    console.error("Search error", err);
     res.status(500).json({ message: "Server error" });
   }
 };
