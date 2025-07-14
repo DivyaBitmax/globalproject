@@ -117,3 +117,32 @@ exports.getLiveProjects = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
+
+// Increment totalApplications by +1 or -1
+exports.updateApplicationCount = async (req, res) => {
+  try {
+    const { action } = req.query; // action = "increment" and "decrement"
+    const projectId = req.params.id;
+
+    const update = {};
+
+    if (action === "increment") {
+      update.$inc = { totalApplications: 1 };
+    } else if (action === "decrement") {
+      update.$inc = { totalApplications: -1 };
+    } else {
+      return res.status(400).json({ success: false, message: "Invalid action" });
+    }
+
+    const updated = await Project.findByIdAndUpdate(projectId, update, { new: true });
+
+    if (!updated) {
+      return res.status(404).json({ success: false, message: "Project not found" });
+    }
+
+    res.status(200).json({ success: true, data: updated });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};

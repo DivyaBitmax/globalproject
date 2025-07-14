@@ -26,7 +26,9 @@ router.put(
   projectController.updateProject
 );
 
-router.delete("/:id", projectController.deleteProject);   // DELETE /api/projects/:id
+router.delete("/:id", projectController.deleteProject);   // DELETE /api/projects/:id    m, nm,
+// PATCH: Increment or Decrement totalApplications
+router.patch("/:id/update-applications", projectController.updateApplicationCount);
 
 module.exports = router;
 

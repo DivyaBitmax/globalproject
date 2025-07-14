@@ -12,7 +12,4 @@ router.get("/today", protect, clientController.getTodayClientsCount);
 router.get("/active", protect, clientController.getActiveClientsCount);
 router.get("/stats/by-user", protect, clientController.getClientStatsByUser);
 router.get("/search", protect, clientController.searchClientByMobile);
-
-
-
 module.exports = router;
