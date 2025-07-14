@@ -26,6 +26,6 @@ router.put(
 );
 
 router.delete("/:id", projectController.deleteProject);   // DELETE /api/projects/:id
-
+router.get("/live-count",  projectController.getLiveProjects); // ✅ For Available Projects count
 module.exports = router;
 
