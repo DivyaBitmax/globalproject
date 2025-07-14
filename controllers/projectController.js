@@ -146,3 +146,17 @@ exports.updateApplicationCount = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
+
+const cron = require("node-cron"); // ✅ 1. Add at top
+
+// ✅ 2. Paste this cron after imports
+cron.schedule("*/5 * * * *", async () => {
+  try {
+    const result = await Project.updateMany({}, { $inc: { totalApplications: 1 } });
+    console.log(`✅ CRON: totalApplications incremented in ${result.modifiedCount} projects`);
+  } catch (err) {
+    console.error("❌ CRON error:", err.message);
+  }
+});
+
