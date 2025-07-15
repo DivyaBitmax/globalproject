@@ -14,7 +14,7 @@ router.post("/", upload.fields([
 
 router.get("/", projectController.getAllProjects);        // GET /api/projects
 router.get("/live", projectController.getLiveProjects);    //  GET /api/projects/live
-router.get("/live-count",  projectController.getLiveProjects); // ✅ For Available Projects count
+router.get("/live-count",  projectController.getLiveProjects); //  For Available Projects count
 router.get("/:id", projectController.getProjectById);     // GET /api/projects/:id
 // router.put("/:id", projectController.updateProject);      // PUT /api/projects/:id
 router.put(

@@ -6,7 +6,16 @@ exports.getClients = async (req, res) => {
     if (req.user.role === "admin") {
       clients = await Client.find(); // Admin can see all
     } else {
-      clients = await Client.find({ createdBy: req.user.id }); // User can only see their own
+      clients = await Client.find({
+
+        $or: [
+          { createdBy: req.user.id },
+          { attendedBy: req.user.username }   // User sees own + assigned
+        ]
+        
+        // createdBy: req.user.id
+        
+        }); // User can only see their own
     }
 
     res.json(clients);
