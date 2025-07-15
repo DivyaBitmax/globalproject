@@ -5,7 +5,11 @@ const crypto = require("crypto");
 
 
 const generateToken = (user) => {
-  return jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
+  return jwt.sign({ 
+    id: user._id, 
+    role: user.role,
+     username: user.username  // ✅ ADD THIS LINE
+   }, JWT_SECRET, {
     expiresIn: "7d",
   });
 };
