@@ -63,9 +63,6 @@ exports.createClient = async (req, res) => {
   }
 };
 
-
-
-
 exports.updateClient = async (req, res) => {
   try {
     // ✅ Admin can edit any, user can only edit their own
@@ -213,20 +210,65 @@ exports.getClientStatsByUser = async (req, res) => {
 
 
 // 🔍 Search client by mobile number
+// exports.searchClientByMobile = async (req, res) => {
+//   try {
+//     const { mobile } = req.query;
+
+//     if (!mobile) {
+//       return res.status(400).json({ message: "Mobile number is required" });
+//     }
+
+//     const regex = new RegExp("^" + mobile); // optional: use partial matching
+//     const clients = await Client.find({ mobile: { $regex: regex } });
+
+//     res.json(clients);
+//   } catch (err) {
+//     console.error("Search error", err);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
+
+
+// 🔍 Secure search client by mobile number
 exports.searchClientByMobile = async (req, res) => {
   try {
     const { mobile } = req.query;
-
     if (!mobile) {
       return res.status(400).json({ message: "Mobile number is required" });
     }
 
-    const regex = new RegExp("^" + mobile); // optional: use partial matching
+    const regex = new RegExp("^" + mobile); // partial match
     const clients = await Client.find({ mobile: { $regex: regex } });
 
-    res.json(clients);
+    // Admin → see all directly
+    if (req.user.role === "admin") {
+      return res.json(clients);
+    }
+
+    // Filter out only own/assigned clients
+    const ownClients = clients.filter(
+      (c) =>
+        c.createdBy?.toString() === req.user.id ||
+        c.attendedBy === req.user.username
+    );
+
+    if (ownClients.length > 0) {
+      // ✅ Client belongs to user → allow data
+      return res.json(ownClients);
+    } else if (clients.length > 0) {
+      // ❌ Data exists but not owned → show message
+      return res.json({
+        exists: true,
+        message: "This number is already handled by another agent.",
+      });
+    } else {
+      // ❌ No match
+      return res.json([]);
+    }
   } catch (err) {
     console.error("Search error", err);
     res.status(500).json({ message: "Server error" });
   }
 };
+
