@@ -260,7 +260,7 @@ exports.searchClientByMobile = async (req, res) => {
       // ❌ Data exists but not owned → show message
       return res.json({
         exists: true,
-        message: "This number is already handled by another agent.",
+        message: "This number is already handled by another User.",
       });
     } else {
       // ❌ No match
