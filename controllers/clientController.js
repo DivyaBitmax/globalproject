@@ -3,6 +3,8 @@ const Client = require("../models/Client");
 exports.getClients = async (req, res) => {
   try {
     let clients;
+      // 🔍 Yeh dono console lagao yahan
+    console.log("👤 Logged-in Username:", req.user.username);
     if (req.user.role === "admin") {
       clients = await Client.find(); // Admin can see all
     } else {
