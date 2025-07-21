@@ -63,17 +63,41 @@ exports.createClient = async (req, res) => {
   }
 };
 
+// exports.updateClient = async (req, res) => {
+//   try {
+//     // ✅ Admin can edit any, user can only edit their own
+//     let query = { _id: req.params.id };
+//     if (req.user.role !== "admin") {
+//       query.createdBy = req.user.id;
+//     }
+
+//     const updated = await Client.findOneAndUpdate(query, req.body, { new: true });
+
+//     if (!updated) return res.status(404).json({ message: "Client not found or access denied" });
+
+//     res.json(updated);
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// };
+
+
 exports.updateClient = async (req, res) => {
   try {
-    // ✅ Admin can edit any, user can only edit their own
     let query = { _id: req.params.id };
+
     if (req.user.role !== "admin") {
-      query.createdBy = req.user.id;
+      query.$or = [
+        { createdBy: req.user.id },                  // User ne create kiya hai
+        { attendedBy: req.user.username }            // Ya assigned (attendedBy)
+      ];
     }
 
     const updated = await Client.findOneAndUpdate(query, req.body, { new: true });
 
-    if (!updated) return res.status(404).json({ message: "Client not found or access denied" });
+    if (!updated) {
+      return res.status(403).json({ message: "Client not found or access denied" });
+    }
 
     res.json(updated);
   } catch (err) {
