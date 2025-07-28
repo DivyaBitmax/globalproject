@@ -9,7 +9,7 @@ const clientSchema = new mongoose.Schema({
   location: String,
   dateOfCall: Date,
   attendedBy: String,
-  status: { type: String, enum: ["Active", "Inactive"], default: "Active" },
+  status: { type: String, enum: ["Active", "Inactive", "Deal"], default: "Active" },
   remarks: String,
   // ✅ Track which user created this
   createdBy: {
