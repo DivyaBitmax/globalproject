@@ -38,7 +38,9 @@ app.use("/api/clients", clientRoutes);
 //project(CRM)
 const projectDetailsRoutes = require("./routes/ProjectDetails");
 app.use("/api/project-details", projectDetailsRoutes);
-
+// Invoice APIs
+const invoiceRoutes = require("./routes/invoiceRoutes");
+app.use("/api/invoices", invoiceRoutes);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
