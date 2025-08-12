@@ -1,10 +1,14 @@
 const mongoose = require("mongoose");
 
 const invoiceSchema = new mongoose.Schema({
-  invoiceNo: { type: String, required: true, unique: true },
-  date: { type: Date, required: true },
-  due: { type: String, required: true },
+  // invoiceNo: { type: String, required: true, unique: true },
+  // date: { type: Date, required: true },
+  // due: { type: String, required: true },
   // balanceDue: { type: Number, required: true, default: 0 },
+
+  invoiceNo: { type: String, unique: true },
+  date: { type: Date },
+  due: { type: String },
 
   billTo: {
     address: { type: String },
