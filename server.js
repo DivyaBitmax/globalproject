@@ -11,7 +11,23 @@ const blogRoutes = require("./routes/blogRoutes"); // Add this
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+
+app.use(cors({
+    origin: [
+        "https://projectsglobal.in",
+        "https://www.projectsglobal.in"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
+}));
+
+// Handle preflight requests
+app.options("*", cors());
+
+
+
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -43,8 +59,9 @@ const invoiceRoutes = require("./routes/invoiceRoutes");
 app.use("/api/invoices", invoiceRoutes);
 
 app.get("/", (req, res) => {
-  res.send("✅ Backend is running!");
+  res.send("Global Project Backend Running 🚀");
 });
+
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
