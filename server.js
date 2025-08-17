@@ -45,5 +45,9 @@ app.use("/api/project-details", projectDetailsRoutes);
 const invoiceRoutes = require("./routes/invoiceRoutes");
 app.use("/api/invoices", invoiceRoutes);
 
+app.get('/',(req,res)=>{
+    res.json({message:"my servcer is live"});
+})
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
