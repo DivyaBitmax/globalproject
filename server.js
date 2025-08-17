@@ -42,5 +42,10 @@ app.use("/api/project-details", projectDetailsRoutes);
 const invoiceRoutes = require("./routes/invoiceRoutes");
 app.use("/api/invoices", invoiceRoutes);
 
+app.get("/", (req, res) => {
+  res.send("✅ Backend is running!");
+});
+
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
