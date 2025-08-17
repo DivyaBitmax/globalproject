@@ -5,8 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed:users": "node seedUsers.js",
-    "dev": "nodemon server.js"
+    "seed:users": "node seedUsers.js"
   },
   "keywords": [],
   "author": "",
@@ -26,7 +25,6 @@
     "multer-storage-cloudinary": "^4.0.0",
     "node-cron": "^4.2.1",
     "nodemailer": "^7.0.3",
-    "nodemon": "^3.1.10",
     "uuid": "^11.1.0"
   }
 }

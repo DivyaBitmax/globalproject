@@ -8,20 +8,10 @@ const otpRoutes = require("./routes/otpRoutes")
 const path = require("path");
 const blogRoutes = require("./routes/blogRoutes"); // Add this
 
-const options=[
-    "https://projectsglobal.in/crm",
-    "https://projectsglobal.in/dashboard",
-];
 
 const app = express();
-app.use(cors({
-    origin: options,
-    credentials: true
-}));
 
-
-
-
+app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -51,10 +41,6 @@ app.use("/api/project-details", projectDetailsRoutes);
 // Invoice APIs
 const invoiceRoutes = require("./routes/invoiceRoutes");
 app.use("/api/invoices", invoiceRoutes);
-
-app.get('/',(req,res)=>{
-    res.json({message:"my servcer is live"});
-})
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
