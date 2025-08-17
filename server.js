@@ -50,7 +50,7 @@ const invoiceRoutes = require("./routes/invoiceRoutes");
 app.use("/api/invoices", invoiceRoutes);
 
 app.get("/", (req, res) => {
-  res.send("✅ Backend is running!");
+  res.json(message,"✅ Backend is running!");
 });
 
 
