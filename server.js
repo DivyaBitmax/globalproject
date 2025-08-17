@@ -11,7 +11,19 @@ const blogRoutes = require("./routes/blogRoutes"); // Add this
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+
+// ✅ Correct CORS config
+app.use(cors({
+  origin: ["https://projectsglobal.in"], // only allow your frontend
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true
+}));
+
+// ✅ Handle preflight (very important)
+app.options("*", cors());
+
+
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
