@@ -49,8 +49,8 @@ app.use("/api/project-details", projectDetailsRoutes);
 const invoiceRoutes = require("./routes/invoiceRoutes");
 app.use("/api/invoices", invoiceRoutes);
 
-app.get("/", (req, res) => {
-  res.json(message,"✅ Backend is running!");
+app.get("/testing", (req, res) => {
+  res.status(500).json({ message :"server is live"});
 });
 
 
