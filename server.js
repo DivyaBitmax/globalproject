@@ -8,11 +8,14 @@ const otpRoutes = require("./routes/otpRoutes")
 const path = require("path");
 const blogRoutes = require("./routes/blogRoutes"); // Add this
 
+const options=[
+    "https://projectsglobal.in/crm",
+    "https://projectsglobal.in/dashboard",
+];
 
 const app = express();
 app.use(cors({
-    origin: "https://projectsglobal.in",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: options,
     credentials: true
 }));
 
