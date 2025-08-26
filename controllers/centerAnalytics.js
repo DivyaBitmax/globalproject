@@ -1,4 +1,4 @@
-const User = require("../models/CenterUser");
+const User = require("../models/centerUser");
 const Project = require("../models/CenterProject");
 const Center = require("../models/CenterDetails");
 
