@@ -56,10 +56,12 @@ app.use("/api/invoices", invoiceRoutes);
 const centerAuthRoutes = require("./routes/CenterAuthRoutes");
 const centerRoutes = require("./routes/centerDetailsRoutes");
 const centerProjectRoutes = require("./routes/CenterProjectRoutes");
-
+const centerAnalyticsRoutes = require("./routes/centerAnalytics")
 app.use("/api/center", centerAuthRoutes);
 app.use("/api/centers", centerRoutes);
 app.use("/api/center-projects", centerProjectRoutes);
+app.use("/api/center-analytics", centerAnalyticsRoutes)
+
 
 app.get("/testing", (req, res) => {
   res.status(500).json({ message :"server is live"});
