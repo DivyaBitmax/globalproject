@@ -1,25 +1,36 @@
 
 const Project = require("../models/CenterProject");
+
 exports.addProject = async (req, res) => {
   try {
     const data = { ...req.body };
 
-    if (req.files?.ndaFile) data.ndaFile = req.files.ndaFile[0].path;
-    if (req.files?.slaFile) data.slaFile = req.files.slaFile[0].path;
-    if (req.files?.invoiceFile) data.invoiceFile = req.files.invoiceFile[0].path;
+    // ✅ Save file paths instead of whole file objects
+    if (req.files?.ndaFile) {
+      data.ndaFile = req.files.ndaFile[0].path;
+    }
+    if (req.files?.slaFile) {
+      data.slaFile = req.files.slaFile[0].path;
+    }
+    if (req.files?.invoiceFile) {
+      data.invoiceFile = req.files.invoiceFile[0].path;
+    }
 
     const project = new Project(data);
-    await project.save();
+    const savedProject = await project.save();
 
-   res.status(201).json({
-    success: true,
-    message: "Project created successfully",
-    project: savedProject
-  });
+    console.log("data", savedProject);
 
+    res.status(201).json({
+      success: true,
+      message: "Project created successfully",
+      project: savedProject,
+    });
   } catch (err) {
-    console.error("Add project error:", err); 
-    res.status(500).json({ error: err.message || "Internal Server Error",status:false }); // ✅ send readable string
+    console.error("Add project error:", err);
+    res
+      .status(500)
+      .json({ error: err.message || "Internal Server Error", status: false });
   }
 };
 

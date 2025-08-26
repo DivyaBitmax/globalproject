@@ -1,4 +1,5 @@
 const express = require("express");
+const router = express.Router();
 const { 
   addProject, 
   getAllProjects, 
@@ -8,29 +9,15 @@ const {
 } = require("../controllers/CenterProjectController");
 
 const multer = require("multer");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const cloudinary = require("../config/cloudinary");
+const upload = multer({ dest: "uploads/" });
 
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "global-projects/center-projects",
-    resource_type: "raw",
-    allowed_formats: ["pdf"],
-  },
-});
-const upload = multer({ storage });
-
-const router = express.Router();
-
-// ✅ Create
 router.post(
-  "/", 
+  "/",
   upload.fields([
     { name: "ndaFile", maxCount: 1 },
     { name: "slaFile", maxCount: 1 },
-    { name: "invoiceFile", maxCount: 1 }
-  ]), 
+    { name: "invoiceFile", maxCount: 1 },
+  ]),
   addProject
 );
 
@@ -42,11 +29,10 @@ router.get("/:id", getProject);
 
 // ✅ Update
 router.put(
-  "/:id", 
-  upload.fields([
+  "/:id",   upload.fields([
     { name: "ndaFile", maxCount: 1 },
     { name: "slaFile", maxCount: 1 },
-    { name: "invoiceFile", maxCount: 1 }
+    { name: "invoiceFile", maxCount: 1 },
   ]), 
   updateProject
 );
