@@ -1,21 +1,16 @@
-// const mongoose = require("mongoose");
-
-// const centerUserSchema = new mongoose.Schema({
-//   userId: { type: String, required: true },
-//   email: { type: String, required: true },
-//   password: { type: String, required: true },
-// }, { timestamps: true });
-
-// // Change "User" to "CenterUser"
-// module.exports = mongoose.models.CenterUser || mongoose.model("CenterUser", centerUserSchema);
-
-
 const mongoose = require("mongoose");
 
 const centerUserSchema = new mongoose.Schema(
   {
     userId: { type: String, required: true },
 
+
+    // ✅ name
+    name: { 
+      type: String, 
+      required: true, 
+      trim: true 
+    },
     // ✅ email with unique + format validation
     email: { 
       type: String, 
