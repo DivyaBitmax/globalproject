@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
 const centerSchema = new mongoose.Schema({
-  userId:{type:mongoose.Schema.Types.ObjectId, ref:"CenterUser"},
+  // userId:{type:mongoose.Schema.Types.ObjectId, ref:"CenterUser"},
+  userId:{type:String,required: true },
   // name: { type: String, required: true },
   address: String,
   phone: String,

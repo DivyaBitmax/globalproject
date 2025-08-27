@@ -20,7 +20,7 @@ router.post(
     { name: "slaFile", maxCount: 1 },
     { name: "invoiceFile", maxCount: 1 },
   ]),
-  protect,
+
   addProject
 );
 

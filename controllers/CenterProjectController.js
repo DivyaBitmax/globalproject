@@ -3,7 +3,7 @@ const Project = require("../models/CenterProject");
 exports.addProject = async (req, res) => {
   try {
     // ✅ Automatically attach userId from authenticated request
-    const userId = req.user?.id;
+    const userId = req.params?.id;
     if (!userId) {
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }

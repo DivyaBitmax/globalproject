@@ -4,13 +4,13 @@ const Center = require("../models/CenterDetails");
 exports.addCenter = async (req, res) => {
   try {
     // ✅ Ensure user is authenticated
-    const userId = req.user?.id;
-    if (!userId) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
-    }
+ 
+    // if (!userId) {
+    //   return res.status(401).json({ success: false, message: "Unauthorized" });
+    // }
 
     // ✅ Prepare center data with userId
-    const centerData = { userId, ...req.body };
+    const centerData = {...req.body };
 
     // ✅ Save center to DB
     const center = await new Center(centerData).save();
