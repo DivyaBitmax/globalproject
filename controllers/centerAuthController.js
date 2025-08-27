@@ -84,8 +84,9 @@ exports.allUsers = async (req, res) => {
 
 // ==================== Get all signed-up users ====================
 exports.singleUser = async (req, res) => {
+  const {userId} =req?.params;
   try {
-    const users = await User.find({}).select("-password").sort({createdAt:-1}) // password hide kar do
+    const users = await User.findById(userId).select("-password"); // password hide kar do
     res.status(200).json({ users });
   } catch (err) {
     res.status(500).json({ msg: err.message });
