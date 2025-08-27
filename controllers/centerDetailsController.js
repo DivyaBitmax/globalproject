@@ -1,26 +1,61 @@
 const Center = require("../models/CenterDetails");
 
 // ✅ Create a new center
+// exports.addCenter = async (req, res) => {
+//   try {
+//     // ✅ Ensure user is authenticated
+ 
+//     // if (!userId) {
+//     //   return res.status(401).json({ success: false, message: "Unauthorized" });
+//     // }
+
+//     // ✅ Prepare center data with userId
+//     const centerData = {...req.body };
+
+//     // ✅ Save center to DB
+//     const center = await new Center(centerData).save();
+
+//     res.status(201).json({ success: true, message: "Center added successfully", center });
+//   } catch (err) {
+//     console.error("Add center error:", err);
+//     res.status(500).json({ success: false, message: err.message || "Internal Server Error" });
+//   }
+// };
+
+
+const jwt = require("jsonwebtoken");
+const Center = require("../models/centerModel");
+
 exports.addCenter = async (req, res) => {
   try {
-    // ✅ Ensure user is authenticated
- 
-    // if (!userId) {
-    //   return res.status(401).json({ success: false, message: "Unauthorized" });
-    // }
+    // 🔑 JWT decode karke userId nikaalo
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
 
-    // ✅ Prepare center data with userId
-    const centerData = {...req.body };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;  // 👈 signup/login ke time token me jo id bheji thi
 
-    // ✅ Save center to DB
+    // ✅ Add userId into center data
+    const centerData = { ...req.body, userId };
+
     const center = await new Center(centerData).save();
 
-    res.status(201).json({ success: true, message: "Center added successfully", center });
+    res.status(201).json({
+      success: true,
+      message: "Center added successfully",
+      center,
+    });
   } catch (err) {
     console.error("Add center error:", err);
-    res.status(500).json({ success: false, message: err.message || "Internal Server Error" });
+    res
+      .status(500)
+      .json({ success: false, message: err.message || "Internal Server Error" });
   }
 };
+
+
 
 // ✅ Get center by ID
 exports.getCenter = async (req, res) => {
