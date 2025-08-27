@@ -5,9 +5,9 @@ exports.addCenter = async (req, res) => {
   try {
     // ✅ Ensure user is authenticated
  
-    if (!userId) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
-    }
+    // if (!userId) {
+    //   return res.status(401).json({ success: false, message: "Unauthorized" });
+    // }
 
     // ✅ Prepare center data with userId
     const centerData = {...req.body };
