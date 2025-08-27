@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const centerProjectSchema = new mongoose.Schema({
+  userId:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"CenterUser",
+  },
   projectCode: { type: String, required: true, unique: true },
   projectType: String,
   projectApprovalDate: Date,

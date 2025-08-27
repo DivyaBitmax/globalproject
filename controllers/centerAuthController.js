@@ -69,3 +69,25 @@ exports.login = async (req, res) => {
     res.status(500).json({ msg: err.message });
   }
 };
+
+
+
+// ==================== Get all signed-up users ====================
+exports.allUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-password").sort({createdAt:-1}) // password hide kar do
+    res.status(200).json({ users });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
+// ==================== Get all signed-up users ====================
+exports.singleUser = async (req, res) => {
+  try {
+    const users = await User.find({}).select("-password").sort({createdAt:-1}) // password hide kar do
+    res.status(200).json({ users });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};

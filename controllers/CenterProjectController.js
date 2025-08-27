@@ -1,39 +1,47 @@
 
 const Project = require("../models/CenterProject");
-
 exports.addProject = async (req, res) => {
   try {
-    const data = { ...req.body };
-
-    // ✅ Save file paths instead of whole file objects
-    if (req.files?.ndaFile) {
-      data.ndaFile = req.files.ndaFile[0].path;
-    }
-    if (req.files?.slaFile) {
-      data.slaFile = req.files.slaFile[0].path;
-    }
-    if (req.files?.invoiceFile) {
-      data.invoiceFile = req.files.invoiceFile[0].path;
+    // ✅ Automatically attach userId from authenticated request
+    const userId = req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
-    const project = new Project(data);
-    const savedProject = await project.save();
+    // ✅ Prepare project data
+    const data = { userId, ...req.body };
 
-    console.log("data", savedProject);
+    // ✅ Attach uploaded file paths if available
+    ["ndaFile", "slaFile", "invoiceFile"].forEach((field) => {
+      if (req.files?.[field]?.[0]?.path) {
+        data[field] = req.files[field][0].path;
+      }
+    });
+
+    // ✅ Save project
+    const project = await new Project(data).save();
 
     res.status(201).json({
       success: true,
       message: "Project created successfully",
-      project: savedProject,
+      project,
     });
   } catch (err) {
     console.error("Add project error:", err);
-    res
-      .status(500)
-      .json({ error: err.message || "Internal Server Error", status: false });
+    res.status(500).json({ success: false, message: err.message || "Internal Server Error" });
   }
 };
 
+// by center user Id
+exports.getAllByUser = async (req, res) => {
+  const userId=req.user?.id;
+  try {
+    const projects = await Project.findOne({userId});
+    res.status(200).json({message:"All center by userId",status:true,data:projects});
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
 
 // ✅ Get All Projects
 exports.getAllProjects = async (req, res) => {

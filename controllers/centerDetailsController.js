@@ -3,13 +3,25 @@ const Center = require("../models/CenterDetails");
 // ✅ Create a new center
 exports.addCenter = async (req, res) => {
   try {
-    const center = new Center(req.body);
-    await center.save();
-    res.status(201).json(center);
+    // ✅ Ensure user is authenticated
+    const userId = req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+
+    // ✅ Prepare center data with userId
+    const centerData = { userId, ...req.body };
+
+    // ✅ Save center to DB
+    const center = await new Center(centerData).save();
+
+    res.status(201).json({ success: true, message: "Center added successfully", center });
   } catch (err) {
-    res.status(500).json({ msg: err.message });
+    console.error("Add center error:", err);
+    res.status(500).json({ success: false, message: err.message || "Internal Server Error" });
   }
 };
+
 // ✅ Get center by ID
 exports.getCenter = async (req, res) => {
   try {
@@ -19,7 +31,16 @@ exports.getCenter = async (req, res) => {
     res.status(500).json({ msg: err.message });
   }
 };
-
+// get all center by center user Id
+exports.getByCenterUser = async (req, res) => {
+  const userId=req.user?.id;
+  try {
+    const centers = await Center.findOne({userId}).sort({ createdAt: -1 });
+  res.status(200).json({message:"All center details by userId",status:true,data:centers});
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
 
 // ✅ Get all centers
 exports.getAllCenters = async (req, res) => {

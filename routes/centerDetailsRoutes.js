@@ -4,14 +4,18 @@ const {
   getCenter,
   getAllCenters,
   updateCenter,
-  deleteCenter
+  deleteCenter,
+  getByCenterUser
 } = require("../controllers/centerDetailsController");
+const { protect } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
 // Create center
-router.post("/", addCenter);
+router.post("/",protect, addCenter);
 
+// Get all by center userId
+router.get("/by",protect, getByCenterUser);
 // Get all centers
 router.get("/", getAllCenters);
 

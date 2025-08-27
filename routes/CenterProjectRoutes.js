@@ -5,10 +5,12 @@ const {
   getAllProjects, 
   getProject, 
   updateProject, 
-  deleteProject 
+  deleteProject, 
+  getAllByUser
 } = require("../controllers/CenterProjectController");
 
 const multer = require("multer");
+const { protect } = require("../middlewares/authMiddleware");
 const upload = multer({ dest: "uploads/" });
 
 router.post(
@@ -18,12 +20,13 @@ router.post(
     { name: "slaFile", maxCount: 1 },
     { name: "invoiceFile", maxCount: 1 },
   ]),
+  protect,
   addProject
 );
 
 // ✅ Read All
 router.get("/", getAllProjects);
-
+router.get("/new", protect,getAllByUser);
 // ✅ Read One
 router.get("/:id", getProject);
 
