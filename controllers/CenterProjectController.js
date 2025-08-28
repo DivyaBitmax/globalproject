@@ -3,7 +3,7 @@ const Project = require("../models/CenterProject");
 exports.addProject = async (req, res) => {
   try {
     // ✅ Automatically attach userId from authenticated request
-    const userId = req.params?.id;
+    const userId = req.user.userId; // Get userId from the authenticated user
     if (!userId) {
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
@@ -34,7 +34,7 @@ exports.addProject = async (req, res) => {
 
 // by center user Id
 exports.getAllByUser = async (req, res) => {
-  const userId=req.user?.id;
+  const userId=req.user?.userId;
   try {
     const projects = await Project.findOne({userId});
     res.status(200).json({message:"All center by userId",status:true,data:projects});

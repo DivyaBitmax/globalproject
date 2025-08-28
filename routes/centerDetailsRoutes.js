@@ -11,20 +11,10 @@ const { protect } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-// Create center
-router.post("/", addCenter);
-// Get all by center userId
+router.post("/", protect, addCenter); 
 router.get("/by",protect, getByCenterUser);
-// Get all centers
-router.get("/", getAllCenters);
-
-// Get single center
+router.get("/all-check", getAllCenters); 
 router.get("/:id", getCenter);
-
-// Update center
 router.put("/:id", updateCenter);
-
-// Delete center
 router.delete("/:id", deleteCenter);
-
 module.exports = router;

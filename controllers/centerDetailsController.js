@@ -3,7 +3,9 @@ const mongoose = require("mongoose")
 // ✅ Create a new center
 exports.addCenter = async (req, res) => {
 try {
-    const {userId, projectCode, projectType, projectApprovalDate } = req.body;
+    const { projectCode, projectType, projectApprovalDate } = req.body;
+    const userId = req.user.userId; // Get userId from the authenticated user
+    console.log("Creating center with userId:", userId); // Log the userId being used
 
     const newProject = new Center({
       userId,  
@@ -11,11 +13,15 @@ try {
       projectType,
       projectApprovalDate
     });
+    
+    console.log("Center object to be saved:", newProject); // Log the center object
 
     await newProject.save();
+    console.log("Center saved successfully:", newProject._id); // Log successful save
 
     res.status(201).json({ status: true, message: "Center project created", data: newProject });
   } catch (err) {
+    console.error("Error creating center:", err); // Log any errors
     res.status(500).json({ status: false, message: err.message });
   }
 };
@@ -30,50 +36,32 @@ exports.getCenter = async (req, res) => {
   }
 };
 
-
-
-// get all center by center user Id
-// exports.getByCenterUser = async (req, res) => {
-//   try {
-//     const userId = req.user.id;
-
-//     const centers = await Center.findOne({ userId }).sort({ createdAt: -1 });
-
-//     res.status(200).json({
-//       message: "All center details by userId",
-//       status: true,
-//       data: centers
-//     });
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// };
-
-
-// get all center by center user Id
+// ✅ Get all centers by userId
 exports.getByCenterUser = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const userId = req.user.userId; // ✅ ab token se aa raha hai
+    console.log("Extracted userId from token:", userId); // Log the extracted userId
 
     if (!userId) {
       return res.status(400).json({
-        message: "userId is required",
+        message: "userId is missing in token",
         status: false,
       });
     }
 
     const centers = await Center.find({ userId }).sort({ createdAt: -1 });
+    console.log("Centers found for userId:", centers); // Log the centers found
 
     res.status(200).json({
       message: "All center details by userId",
       status: true,
-      data: centers,   // [] return karega agar kuch nahi mila
+      data: centers,
     });
   } catch (err) {
+    console.error("Error in getByCenterUser:", err); // Log any errors
     res.status(500).json({ message: err.message, status: false });
   }
 };
-
 
 
 
