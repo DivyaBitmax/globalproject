@@ -79,7 +79,7 @@ exports.allUsers = async (req, res) => {
 exports.singleUser = async (req, res) => {
   const {userId} =req?.body;
   try {
-    const users = await User.findById(userId).select("-password"); // password hide kar do
+    const users = await User.findOne(userId).select("-password"); // password hide kar do
     res.status(200).json({ users });
   } catch (err) {
     res.status(500).json({ msg: err.message });
