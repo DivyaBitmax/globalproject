@@ -19,7 +19,7 @@ try {
     await newProject.save();
     console.log("Center saved successfully:", newProject._id); // Log successful save
 
-    res.status(201).json({ status: true, message: "Center project created", data: newProject });
+    res.status(201).json({ status: true, message: "Center details created", data: newProject });
   } catch (err) {
     console.error("Error creating center:", err); // Log any errors
     res.status(500).json({ status: false, message: err.message });
