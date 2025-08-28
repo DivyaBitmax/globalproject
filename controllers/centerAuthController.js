@@ -77,7 +77,7 @@ exports.allUsers = async (req, res) => {
 
 // ==================== Get all signed-up users ====================
 exports.singleUser = async (req, res) => {
-  const {userId} =req?.params;
+  const {userId} =req?.body;
   try {
     const users = await User.findById(userId).select("-password"); // password hide kar do
     res.status(200).json({ users });
