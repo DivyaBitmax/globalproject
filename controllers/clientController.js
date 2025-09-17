@@ -184,7 +184,7 @@ exports.getClientStatsByUser = async (req, res) => {
   try {
     const users = [
       "aneetagp", "aarjugp", "sakshigp",
-      "khushboogp", "vanshgp", "divyagp"
+      "khushboogp", "Bismagp", "divyagp"
     ];
 
     const IST_OFFSET = 5.5 * 60 * 60 * 1000;
