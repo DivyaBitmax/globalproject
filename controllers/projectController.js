@@ -107,7 +107,7 @@ exports.deleteProject = async (req, res) => {
 exports.getLiveProjects = async (req, res) => {
   try {
     // const liveProjects = await Project.find({ status: "LIVE" });
-    const liveProjects = await Project.find({ status: "AVAILABLE" });
+    const liveProjects = await Project.find({ status: "AVAILABLE" , "HOLD"});
     res.status(200).json({
       success: true,
       data: liveProjects,
