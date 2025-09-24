@@ -35,9 +35,29 @@ exports.createProject = async (req, res) => {
 
 
 
+// exports.getAllProjects = async (req, res) => {
+//   try {
+//     const projects = await Project.find().sort({ createdAt: -1 });
+//     res.status(200).json({ success: true, data: projects });
+//   } catch (err) {
+//     res.status(500).json({ success: false, error: err.message });
+//   }
+// };
+
+
+
 exports.getAllProjects = async (req, res) => {
   try {
-    const projects = await Project.find().sort({ createdAt: -1 });
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1); // date 1 month ago
+
+    const projects = await Project.find({
+      $or: [
+        { status: { $in: ["AVAILABLE", "HOLD"] } }, // still open/hold
+        { status: "CLOSED", countdownEndDate: { $gte: oneMonthAgo } } // closed but within 1 month
+      ]
+    }).sort({ createdAt: -1 });
+
     res.status(200).json({ success: true, data: projects });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
